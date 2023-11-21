@@ -1,4 +1,4 @@
-### Project Scope: Predictive Analysis of Bitcoin Prices using LSTM Model
+### Predictive Analysis of Bitcoin Prices using LSTM Model
 
 #### Overview
 The objective of this project is to develop a machine learning model using Long Short-Term Memory (LSTM) neural networks to predict Bitcoin prices. The project will involve data collection, preprocessing, model development, evaluation, and visualization of results. We aim to achieve a balance between model accuracy (R-squared value) and error metrics (Mean Squared Error and Mean Absolute Error).
