@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Bitcoin Trading Analysis</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- CSS for beauty -->
+  <link rel="stylesheet" type="text/css" href="static/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+        <h1>Bitcoin Trading Analysis Dashboard</h1>
+        <p>Use the interactive charts below to explore the BTC dataset to make your choice informed!</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="well">
+          <h5>Selected Date:</h5>
+          <input type="date" id="dateSelector" onchange="updateCharts()">
+        </div>
+      </div>
+      <div class="col-md-5">
+        <!-- Replace this with BTC historical chart -->
+        <div id="historicalChart"></div>
+        <h2>Historical Chart Goes Here</h2>
+      </div>
+      <div class="col-md-5">
+        <!-- Replace this with  BTC volatility chart -->
+        <div id="volatilityChart"></div>
+        <h2>Volatility Chart Goes Here</h2>
+      </div>
+    </div>
+
+    <!-- Text Sections -->
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Scope</h2>
+        <p>The project scope involves developing a comprehensive machine learning system to analyze and predict BTCUSD (Bitcoin to US Dollar) exchange rates for effective market prediction and trading strategy formulation.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Legal and Ethical Considerations</h2>
+        <p>Lorem ipsum...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include the necessary JavaScript libraries -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <!-- Include the BTC analysis JavaScript file -->
+  <script src="static/js/btc_analysis.js"></script>
+</body>
+</html>
+
+<!-- Include the necessary JavaScript libraries -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<!-- Include the BTC analysis JavaScript file -->
+<script src="static/js/btc_analysis.js"></script>
+</body>
+</html>
