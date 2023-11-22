@@ -1,0 +1,91 @@
+<!-- correlation_heatmap.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Correlation Heatmap</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <!-- CSS for beauty -->
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Place the correlation heatmap container here with the id "correlationHeatmap" -->
+        <div id="correlationHeatmap"></div>
+        <h2>Correlation Heatmap</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include the necessary JavaScript libraries -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <!-- Additional scripts for the correlation heatmap interactivity -->
+
+  <script>
+    // Sample data for the correlation heatmap
+    const correlationData = {
+      columns: ['Feature1', 'Feature2', 'Feature3'],
+      index: ['Feature1', 'Feature2', 'Feature3'],
+      values: [
+        [1, 0.8, 0.5],
+        [0.8, 1, 0.3],
+        [0.5, 0.3, 1]
+      ]
+    };
+
+    const data = [{
+      z: correlationData.values,
+      x: correlationData.columns,
+      y: correlationData.index,
+      type: "heatmap",
+      colorscale: 'RdBu',
+      hoverongaps: false,
+      hovertemplate: 'Feature1: %{x}<br>Feature2: %{y}<br>Correlation: %{z:.2f}',
+    }];
+
+    const layout = {
+      title: "Correlation Heatmap",
+      xaxis: { title: "Features" },
+      yaxis: { title: "Features" }
+    };
+
+    const config = {
+      responsive: true
+    };
+
+    Plotly.newPlot("correlationHeatmap", data, layout, config);
+
+    // Add tooltips on hover
+    const heatmap = document.getElementById('correlationHeatmap');
+    heatmap.on('plotly_hover', function (data) {
+      const feature1 = data.points[0].x;
+      const feature2 = data.points[0].y;
+      const correlationValue = data.points[0].z;
+      const tooltipText = `Feature1: ${feature1}<br>Feature2: ${feature2}<br>Correlation: ${correlationValue.toFixed(2)}`;
+      Plotly.Fx.hover(heatmap, [{ x: feature1, y: feature2, text: tooltipText }]);
+    });
+
+    // Customize color range
+    const colorRange = [-1, -0.8, -0.5, 0, 0.5, 0.8, 1];
+    Plotly.update("correlationHeatmap", { colorscale: 'RdBu', colorbar: { tickvals: colorRange } });
+
+    // Add click event to cells in the heatmap
+    heatmap.on('plotly_click', function(data) {
+      const feature1 = data.points[0].x;
+      const feature2 = data.points[0].y;
+      const correlationValue = data.points[0].z;
+      alert(`Clicked on correlation between ${feature1} and ${feature2}. Correlation value: ${correlationValue}`);
+    });
+  </script>
+</body>
+
+</html>

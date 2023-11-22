@@ -1,0 +1,72 @@
+<!-- volatility_chart.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Volatility Chart</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- CSS for beauty -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Volatility chart container with the id "volatilityChart" -->
+        <div id="volatilityChart"></div>
+        <h2>Volatility Chart</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Necessary JavaScript libraries -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <!-- Additional scripts for the volatility chart interactivity -->
+  <script>
+    // Sample data for the volatility chart
+    const volatilityChartData = [
+      {
+        x: ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05'],
+        y: [0.02, 0.015, 0.03, 0.025, 0.035],
+        type: 'line',
+        mode: 'lines+markers',
+        name: 'Volatility',
+      },
+    ];
+
+    const layout = {
+      title: 'Volatility Chart',
+      xaxis: { title: 'Date' },
+      yaxis: { title: 'Volatility' },
+    };
+
+    const config = {
+      responsive: true,
+    };
+
+    Plotly.newPlot('volatilityChart', volatilityChartData, layout, config);
+
+    // Add hover information
+    const volatilityChart = document.getElementById('volatilityChart');
+    volatilityChart.on('plotly_hover', function (data) {
+      const point = data.points[0];
+      const hoverText = `Volatility: ${point.y}`;
+      Plotly.Fx.hover(volatilityChart, [{ x: point.x, y: point.y, text: hoverText }]);
+    });
+
+    // Add click event
+    volatilityChart.on('plotly_click', function (data) {
+      const point = data.points[0];
+      alert(`Clicked on Volatility: ${point.y}`);
+    });
+  </script>
+</body>
+
+</html>

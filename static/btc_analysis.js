@@ -1,16 +1,27 @@
 // Function to fetch BTC data
 function fetchBTCData(selectedDate) {
-  // Fetch data from Flask API
-  fetch(`/api/btcdata?date=${selectedDate}`)
-      .then(response => response.json())
-      .then(data => {
-          // Process and use the data to create charts
-          createHistoricalChart(data.historicalClosePrices, selectedDate);
-          createBoxPlot(data.volatilityData);  // Update to use the correct data property
-          // Additional charts creation functions if needed
-          displayAdditionalInfo(data.additionalInfo);
-      })
-      .catch(error => console.error("Error fetching BTC data:", error));
+    // Fetch data from Flask API
+    fetch(`/api/btcdata?date=${selectedDate}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Check if the response contains an error
+            if ('error' in data) {
+                console.error("Error fetching BTC data:", data.error);
+                // Handle the error gracefully, you might want to show a user-friendly message
+            } else {
+                // Process and use the data to create charts
+                createHistoricalChart(data.historicalClosePrices, selectedDate);
+                createBoxPlot(data.volatilityData);  // Update to use the correct data property
+                // Additional charts creation functions if needed
+                displayAdditionalInfo(data.additionalInfo);
+            }
+        })
+        .catch(error => console.error("Fetch error:", error));
 }
 
 // Function to create a box plot
