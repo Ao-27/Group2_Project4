@@ -1,155 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bitcoin Trading Analysis</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- CSS for beauty -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <!-- Styling for pop-up for legal purposes-->
-    <style>
-        /* Style the button */
-        button {
-            color: white;
-            background-color: #000;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Bitcoin Trading Analysis</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
-        /* Styling for the pop-up content */
-        .popup-content {
-            color: white;
-        }
-
-        /* Style the pop-up overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            align-items: center;
-            justify-content: center;
-            z-index: 1;
-        }
-
-        /* Style the pop-up box */
-        .popup-box {
-            background: #000;
-            padding: 20px;
-            border-radius: 5px;
-            max-width: 600px;
-            text-align: left;
-            opacity: 1;
-            /* Set opacity to 100% */
-        }
-
-        /* Style the close button */
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
-
-        /* New styles for image containers */
-        .image-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .image-container img {
-            width: 300px;
-            height: 200px;
-            margin: 10px;
-        }
-    </style>
+  <style>
+    /* Your existing CSS styles... */
+  </style>
 </head>
-
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 jumbotron text-center">
-                <h1>Bitcoin Trading Analysis Dashboard</h1>
-                <p>Use the interactive charts below to explore the BTC dataset to make informed choices!</p>
-                <!-- Button to trigger pop-up -->
-                <button onclick="togglePopup()">TERMS & CONDITIONS</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">
-                <div class="well">
-                    <h5>Selected Date:</h5>
-                    <input type="date" id="dateSelector" onchange="updateCharts()">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <a href="/volatility_chart" target="_blank">View Volatility Chart</a>
-                    <div class="image-container">
-                        <img src="https://png.pngtree.com/png-clipart/20230815/original/pngtree-conceptual-image-of-a-cryptocurrency-crisis-with-bitcoins-fluctuating-arrow-depicting-digital-currency-volatility-and-associated-risks-vector-picture-image_10775666.png"
-                            alt="Volatility Chart">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <a href="/correlation_heatmap" target="_blank">View Correlation Heatmap</a>
-                    <div class="image-container">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_SGYgh0YkcDTIg9B6b6kpuh3YDYT4F0qDrRz0axuJXesdJPOZkeLPpxoj6Je0StfSDIo&usqp=CAU"
-                            alt="Correlation Heatmap">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <a href="/box_plot" target="_blank">View Box Plot</a>
-                    <div class="image-container">
-                        <img src="https://cdn-icons-png.flaticon.com/512/6754/6754439.png" alt="Box Plot">
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+        <h1>Bitcoin Trading Analysis Dashboard</h1>
+        <p>Use the interactive charts below to explore the BTC dataset to make informed choices!</p>
+        <button onclick="togglePopup()">TERMS & CONDITIONS</button>
+      </div>
     </div>
-
+    <div class="row">
+      <div class="col-md-2">
+        <div class="well">
+          <h5>Selected Date:</h5>
+          <input type="date" id="dateSelector" onchange="updateCharts()">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <div id="historicalChart"></div>
+        <h2>Historical Chart</h2>
+      </div>
+      <div class="col-md-5">
+        <div id="boxPlot"></div>
+        <h2>Box Plot</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <div id="volatilityChart"></div>
+        <h2>Volatility Chart</h2>
+      </div>
+      <div class="col-md-5">
+        <div id="correlationHeatmap"></div>
+        <h2>Correlation Heatmap</h2>
+      </div>
+    </div>
     <!-- Pop-up overlay & box -->
     <div class="overlay" onclick="togglePopup()">
-        <div class="popup-box" onclick="event.stopPropagation();">
-            <!-- Close Button-->
-            <span class="close-btn" onclick="togglePopup()">X</span>
-            <!-- Text content for the pop-up -->
-            <h2>Terms & Conditions</h2>
-            <p class="popup-content">
-                By reading the content here you understand that the information provided on this platform is for
-                general informational purposes only and should not be considered as financial advice. We do not
-                provide personalized financial, investment, or tax advice. The content is not intended to be a
-                substitute for professional financial advice, diagnosis, or treatment. This is for educational
-                purposes only, and we do not endorse or recommend any specific financial products, services, or
-                strategies. Any reliance you place on this information is strictly at your own risk.
-            </p>
-        </div>
+      <div class="popup-box" onclick="event.stopPropagation();">
+        <!-- Close Button-->
+        <span class="close-btn" onclick="togglePopup()">X</span>
+        <!-- Pop-up content -->
+        <h2>Terms & Conditions</h2>
+        <p class="popup-content">
+          <!-- Your terms and conditions text... -->
+        </p>
+      </div>
     </div>
+  </div>
 
-    <!-- Include the necessary JavaScript libraries -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <!-- Include JavaScript libraries -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="{{ url_for('static', filename='btc_analysis.js') }}"></script>
 
-    <!-- Include the BTC analysis JavaScript file -->
-    <script src="{{ url_for('static', filename='btc_analysis.js') }}"></script>
-
-    <!-- Additional script for pop-up functionality -->
-    <script>
-        // Function to toggle the pop-up display
-        function togglePopup() {
-            const overlay = document.querySelector('.overlay');
-            overlay.style.display = overlay.style.display === 'flex' ? 'none' : 'flex';
-        }
-    </script>
+  <!-- Pop-up functionality script -->
+  <script>
+    // Your existing JavaScript code...
+  </script>
 </body>
-
 </html>
